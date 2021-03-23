@@ -8,7 +8,7 @@ import java.util.Random;
 public class SortMain {
 
     public static void main(String[] args) {
-        int[] numArr = new int[5000];
+        int[] numArr = new int[50000];
         Random random = new Random();
         for (int i = 0; i < numArr.length; i++) {
             numArr[i] = random.nextInt(100);
@@ -17,9 +17,17 @@ public class SortMain {
         answerSort(numArr.clone());
         insertSort(numArr.clone());
         mergeSort(numArr.clone());
-        insertRecursionSort(numArr.clone());
+        insertDiviSort(numArr.clone());
     }
 
+    private static void insertDiviSort(int[] numArr) {
+        TimeRecord record = new TimeRecord();
+        SortUtil.getInstance().insertDiviSort(numArr);
+        record.recordStop("insertDiviSort");
+        SortUtil.getInstance().sysArr(numArr, "insertDiviSort");
+    }
+
+    @Deprecated
     private static void insertRecursionSort(int[] numArr) {
         TimeRecord record = new TimeRecord();
         SortUtil.getInstance().insertRecursionSort(numArr);

@@ -13,12 +13,56 @@ public class SortUtil {
     }
 
 
-    // TODO LILK 2.3-5
-
     /**
-     * 用递归做一下插入排序
+     * 用二分法做一下插入排序
      * @param numArr
      */
+    public void insertDiviSort(int[] numArr) {
+        if (null == numArr || numArr.length <= 1) {
+            return ;
+        }
+
+        for (int i = 1; i < numArr.length; i++) {
+            int resultIndex = 0;
+            int num = numArr[i];
+            if (num <= numArr[0]) {
+                resultIndex = 0;
+            } else if (num >= numArr[i - 1]) {
+                continue;
+            } else {
+                int start = 0;
+                int end = i - 1;
+                while (true) {
+                    if (start >= end) {
+                        resultIndex = start;
+                        break;
+                    } else if (start + 1 == end) {
+                        resultIndex = end;
+                        break;
+                    }
+
+                    int middle = (start + end) / 2;
+                    if (num < numArr[middle]) {
+                        end = middle;
+                        continue;
+                    } else {
+                        start = middle;
+                    }
+                }
+            }
+
+            for (int j = i - 1; j >= resultIndex; j--) {
+                numArr[j + 1] = numArr[j];
+            }
+            numArr[resultIndex] = num;
+        }
+    }
+
+    /**
+     * 用递归做一下插入排序,用递归插入排序，数组一多就会堆溢出
+     * @param numArr
+     */
+    @Deprecated
     public void insertRecursionSort(int[] numArr) {
         if (null == numArr || numArr.length <= 1) {
             return ;
