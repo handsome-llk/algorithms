@@ -12,6 +12,17 @@ public class SortUtil {
         return sortUtil;
     }
 
+    /**
+     * 堆排序
+     * @param numArr
+     */
+    public void heapSort(int[] numArr) {
+        // TODO LILK
+    }
+
+    public void MIN_HEAPIFY(int[] heapArr, int index) {
+
+    }
 
     /**
      * 用二分法做一下插入排序
