@@ -1,5 +1,7 @@
 package com.study.algorithms.sort;
 
+import com.study.algorithms.sort.vo.MaxHeap;
+
 /**
  * 排序工具
  */
@@ -17,12 +19,14 @@ public class SortUtil {
      * @param numArr
      */
     public void heapSort(int[] numArr) {
-        // TODO LILK
+        if (null == numArr || numArr.length <= 1) {
+            return ;
+        }
+        MaxHeap maxHeap = new MaxHeap(numArr);
+        int[] reault = maxHeap.ascArr();
+        System.arraycopy(reault, 0, numArr, 0, numArr.length);
     }
 
-    public void MIN_HEAPIFY(int[] heapArr, int index) {
-
-    }
 
     /**
      * 用二分法做一下插入排序
@@ -224,6 +228,21 @@ public class SortUtil {
         }
         System.out.println();
         System.out.println();
+    }
+
+    public boolean isRight(int[] answerArr, int[] destArr) {
+        if (null == answerArr || null == destArr) {
+            return false;
+        }
+        if (answerArr.length != destArr.length) {
+            return false;
+        }
+        for (int i = 0; i < answerArr.length; i++) {
+            if (answerArr[i] != destArr[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

@@ -17,6 +17,11 @@ public class MaxHeap {
         }
     }
 
+    /**
+     * 该构造器就是单纯的就数组仍如堆中，并不是构造最大堆
+     * @param numArr
+     * @param calMaxHeap
+     */
     public MaxHeap(int[] numArr, boolean calMaxHeap) {
         heapSize = numArr.length;
         heapArr = new int[numArr.length];
@@ -106,6 +111,28 @@ public class MaxHeap {
             }
         }
         return result;
+    }
+
+    /**
+     * 返回升序数据
+     * @return
+     */
+    public int[] ascArr() {
+        int[] numArr = this.heapArr.clone();
+        MaxHeap maxHeap = new MaxHeap(numArr, true);
+        for (int i = numArr.length - 1; i >= 1; i--) {
+            int num = maxHeap.heapArr[i];
+            maxHeap.heapArr[i] = maxHeap.heapArr[0];
+            maxHeap.heapArr[0] = num;
+            maxHeap.heapSize--;
+            maxHeap.maxHeapify(0);
+        }
+        maxHeap.heapSize = maxHeap.getSize();
+        return maxHeap.getHeapArr();
+    }
+
+    public int[] getHeapArr() {
+        return heapArr.clone();
     }
 
     public static void main(String[] args) {
