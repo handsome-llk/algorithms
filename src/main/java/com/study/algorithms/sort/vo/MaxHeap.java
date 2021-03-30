@@ -1,5 +1,8 @@
 package com.study.algorithms.sort.vo;
 
+import com.study.algorithms.sort.SortUseUtil;
+import com.study.algorithms.sort.SortUtil;
+
 /**
  * 最大堆：父节点都大于等于子节点
  */
@@ -15,6 +18,11 @@ public class MaxHeap {
             heapArr[i] = numArr[i];
             maxHeapify(i);
         }
+    }
+
+    public MaxHeap(int length) {
+        heapArr = new int[length];
+        heapSize = 0;
     }
 
     /**
@@ -79,8 +87,8 @@ public class MaxHeap {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        for (int num : heapArr) {
-            sb.append(num).append(",");
+        for (int i = 0; i < getHeapSize(); i++) {
+            sb.append(heapArr[i]).append(",");
         }
         if (sb.toString().endsWith(",")) {
             sb.setLength(sb.length() - 1);
@@ -135,21 +143,65 @@ public class MaxHeap {
         return heapArr.clone();
     }
 
-    public static void main(String[] args) {
-        int[] a = new int[20];
-        for (int i = 0; i < a.length; i++) {
-            a[i] = (int) (Math.random() * 20);
-        }
-        MaxHeap maxHeap = new MaxHeap(a);
-        System.out.println(maxHeap);
-        System.out.println(maxHeap.isMaxHeap(0));
-
-        int[] b = new int[maxHeap.getHeapSize() + 1];
-        System.arraycopy(maxHeap.heapArr, 0, b, 0, maxHeap.getHeapSize());
-        b[b.length - 1] = 20;
-        MaxHeap copy = new MaxHeap(b, true);
-        System.out.println(copy);
-        System.out.println(copy.isMaxHeap(0));
+    public int get(int index) {
+        return this.heapArr[index];
     }
 
+    public int extraMax() {
+        int result = this.heapArr[0];
+        heapArr[0] = heapArr[getHeapSize() - 1];
+        heapArr[getHeapSize() - 1] = result;
+        heapSize--;
+        maxHeapify(0);
+        return result;
+    }
+
+    public void changeKey(int i, int num) {
+        if (i < 0 || i >= getHeapSize()) {
+            return ;
+        }
+        if (heapArr[i] > num) {
+            heapArr[i] = num;
+            maxHeapify(i);
+        } else {
+            while (true) {
+                if (parent(i) < 0 || heapArr[parent(i)] >= num) {
+                    break;
+                }
+                heapArr[i] = heapArr[parent(i)];
+                i = parent(i);
+            }
+            heapArr[i] = num;
+        }
+    }
+
+    public void insert(int num) {
+        if (getHeapSize() >= getSize()) {
+            int[] newHeapArr = new int[getSize() * 2];
+            System.arraycopy(heapArr, 0, newHeapArr, 0, getHeapSize());
+            heapArr = newHeapArr;
+        }
+        heapArr[getHeapSize()] = num;
+        heapSize++;
+        changeKey(getHeapSize() - 1, num);
+    }
+
+
+    public static void main(String[] args) {
+        int[] numArr = new int[10];
+        for (int i = 0; i < numArr.length; i++) {
+            numArr[i] = (int) (Math.random() * 10);
+        }
+        MaxHeap maxHeap = new MaxHeap(numArr);
+        System.out.println(maxHeap.toString());
+        System.out.println(maxHeap.isMaxHeap(0));
+        System.out.println();
+
+        MaxHeap maxHeap1 = new MaxHeap(30);
+        for (int num : numArr) {
+            maxHeap1.insert(num);
+        }
+        System.out.println(maxHeap1.toString());
+        System.out.println(maxHeap1.isMaxHeap(0));
+    }
 }

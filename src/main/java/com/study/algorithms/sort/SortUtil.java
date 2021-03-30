@@ -1,6 +1,7 @@
 package com.study.algorithms.sort;
 
 import com.study.algorithms.sort.vo.MaxHeap;
+import com.study.algorithms.sort.vo.MaxQueue;
 
 /**
  * 排序工具
@@ -13,6 +14,7 @@ public class SortUtil {
     public static SortUtil getInstance() {
         return sortUtil;
     }
+
 
     /**
      * 堆排序
