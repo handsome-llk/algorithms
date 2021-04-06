@@ -186,22 +186,4 @@ public class MaxHeap {
         changeKey(getHeapSize() - 1, num);
     }
 
-
-    public static void main(String[] args) {
-        int[] numArr = new int[10];
-        for (int i = 0; i < numArr.length; i++) {
-            numArr[i] = (int) (Math.random() * 10);
-        }
-        MaxHeap maxHeap = new MaxHeap(numArr);
-        System.out.println(maxHeap.toString());
-        System.out.println(maxHeap.isMaxHeap(0));
-        System.out.println();
-
-        MaxHeap maxHeap1 = new MaxHeap(30);
-        for (int num : numArr) {
-            maxHeap1.insert(num);
-        }
-        System.out.println(maxHeap1.toString());
-        System.out.println(maxHeap1.isMaxHeap(0));
-    }
 }
