@@ -56,7 +56,7 @@ public class YoungTableau {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("[");
+        sb.append("[").append("\n");
         for (int i = 0; i < getYoungSize(); i++) {
             sb.append(youngArr[i]).append("\t");
             if (isRight(i)) {
@@ -114,8 +114,44 @@ public class YoungTableau {
 
     }
 
+    public void maxHeapify(int index) {
+        if (index <= 0 || index >= getYoungSize()) {
+            return ;
+        }
 
-    // TODO LILK 插入逻辑，二叉树的插入逻辑重新想一想
+        int num = youngArr[index];
+        while (true) {
+            int maxNum = num;
+            int maxIndex = index;
+            if (!isLeft(index) && youngArr[left(index)] > maxNum) {
+                maxNum = youngArr[left(index)];
+                maxIndex = left(index);
+            }
+            if (top(index) >= 0 && youngArr[top(index)] > maxNum) {
+                maxNum = youngArr[top(index)];
+                maxIndex = top(index);
+            }
+            if (maxIndex == index) {
+                break;
+            }
+            youngArr[index] = maxNum;
+            index = maxIndex;
+        }
+        youngArr[index] = num;
+    }
+
+    public void insert(int num) {
+        if (getYoungSize() >= youngArr.length) {
+            int[] newArr = new int[youngArr.length + 10];
+            System.arraycopy(youngArr, 0, newArr, 0, youngArr.length);
+            youngArr = newArr;
+        }
+        youngArr[getYoungSize()] = num;
+        youngSize++;
+        maxHeapify(getYoungSize() - 1);
+    }
+
+    // TODO LILK 练习题f
 
     public static void main(String[] args) {
         int[] numArr = new int[30];
@@ -125,6 +161,8 @@ public class YoungTableau {
         YoungTableau youngTableau = new YoungTableau(5, numArr.clone());
         System.out.println(youngTableau.toString());
         System.out.println(youngTableau.extractMin());
+        System.out.println(youngTableau.toString());
+        youngTableau.insert(5);
         System.out.println(youngTableau.toString());
     }
 
