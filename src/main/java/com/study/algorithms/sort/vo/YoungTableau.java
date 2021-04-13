@@ -1,5 +1,7 @@
 package com.study.algorithms.sort.vo;
 
+import com.study.common.TimeRecord;
+
 /**
  * Young氏矩阵
  */
@@ -151,19 +153,96 @@ public class YoungTableau {
         maxHeapify(getYoungSize() - 1);
     }
 
-    // TODO LILK 练习题f
+    public boolean hasNum(int num) {
+        int index = 0;
+        while (index < getYoungSize() && index >= 0) {
+            if (youngArr[index] == num) {
+                return true;
+            } else if (isRight(index)) {
+                break;
+            } else if (youngArr[index] < num) {
+                index = right(index);
+            } else {
+                index = left(index);
+                break;
+            }
+        }
+
+        if (index < 0) {
+            return false;
+        }
+
+        while (index < getYoungSize() && index >= 0) {
+            while (index < getYoungSize() && index >= 0) {
+                if (youngArr[index] == num) {
+                    return true;
+                } else if (youngArr[index] < num) {
+                    index = down(index);
+                } else {
+                    break;
+                }
+                // 往下走超出上限，说明左边的都比num小，右边的都比num大，所以不存在相等的数
+            }
+
+            // 如果不是完整的矩阵就会出错，所以需要这一步
+            boolean isChange = false;
+            if (index >= getYoungSize()) {
+                index = getYoungSize() - 1;
+                isChange = true;
+            }
+
+            while (index < getYoungSize() && index >= 0) {
+                if (youngArr[index] == num) {
+                    return true;
+                } else if (isLeft(index)) {
+                    break;
+                } else if (youngArr[index] > num) {
+                    index = left(index);
+                } else {
+                    if (isChange) {
+                        return false;
+                    }
+                    break;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean hasNumAnswer(int num) {
+        for (int arrNum : this.youngArr) {
+            if (arrNum == num) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public int get(int index) {
+        return youngArr[index];
+    }
+
 
     public static void main(String[] args) {
-        int[] numArr = new int[30];
+        int[] numArr = new int[3000000];
         for (int i = 0; i < numArr.length; i++) {
-            numArr[i] = (int) (Math.random() * 20);
+            int random = 0;
+            if (i % 2== 0) {
+                random = (int) (Math.random() * 900);
+            } else {
+                random = (int) (Math.random() * 100) + 901;
+            }
+            numArr[i] = random;
         }
-        YoungTableau youngTableau = new YoungTableau(5, numArr.clone());
-        System.out.println(youngTableau.toString());
-        System.out.println(youngTableau.extractMin());
-        System.out.println(youngTableau.toString());
-        youngTableau.insert(5);
-        System.out.println(youngTableau.toString());
+        YoungTableau youngTableau = new YoungTableau(1700, numArr.clone());
+        youngTableau.insert(901);
+        System.out.println(youngTableau.get(youngTableau.getYoungSize() - 1));
+        TimeRecord record = new TimeRecord();
+        System.out.println(youngTableau.hasNumAnswer(900));
+        record.recordStop("hasNumAnswer");
+        System.out.println(youngTableau.hasNum(900));
+        record.recordStop("hasNum");
     }
 
 

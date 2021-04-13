@@ -3,6 +3,9 @@ package com.study.algorithms.sort;
 import com.study.algorithms.sort.vo.MaxHeap;
 import com.study.algorithms.sort.vo.MaxQueue;
 
+import java.util.Collections;
+import java.util.Random;
+
 /**
  * 排序工具
  */
@@ -14,7 +17,150 @@ public class SortUtil {
     public static SortUtil getInstance() {
         return sortUtil;
     }
+    private Random random = new Random();
 
+
+    public void quickSortRandom(int[] numArr) {
+        if (null == numArr || numArr.length <= 1) {
+            return ;
+        }
+        quickSortRandom(numArr, 0, numArr.length - 1);
+    }
+
+    private void quickSortRandom(int[] numArr, int low, int high) {
+        if (high <= low) {
+            return ;
+        }
+
+        int index = quickRandom(numArr, low, high);
+        quickSortRandom(numArr, low, index - 1);
+        quickSortRandom(numArr, index + 1, high);
+    }
+
+    private int quickRandom(int[] numArr, int low, int high) {
+        int randomIndex = low + random.nextInt(high - low + 1);
+        int randomNum = numArr[randomIndex];
+        numArr[randomIndex] = numArr[high];
+        numArr[high] = randomNum;
+
+
+        return quick(numArr, low, high);
+    }
+
+    /**
+     * 快速排序2
+     * @param numArr
+     */
+    public void quickSort2(int[] numArr) {
+        if (null == numArr || numArr.length <= 1) {
+            return ;
+        }
+        quickSort2(numArr, 0, numArr.length - 1);
+    }
+
+    private void quickSort2(int[] numArr, int low, int high) {
+        if (high <= low) {
+            return ;
+        }
+
+        int index = quick2(numArr, low, high);
+        quickSort2(numArr, low, index - 1);
+        quickSort2(numArr, index + 1, high);
+    }
+
+    private int quick2(int[] numArr, int low, int high) {
+        int sortNum = numArr[high];
+        // k代表比sortNum大的数的最小下标，这个算法其实就是维护两个比sortNum大的数的最小下标和最大下标
+        int k = 0;
+        for (int i = low; i < high; i++) {
+            // TODO LILK 当集合中都比sortNum大，k返回0时会有问题
+            if (numArr[i] < sortNum) {
+                int temp = numArr[i];
+                numArr[i] = numArr[k];
+                numArr[k] = temp;
+                k++;
+            }
+        }
+
+        numArr[high] = numArr[k];
+        numArr[k] = sortNum;
+        return k;
+
+//        // 思考为什么会是错的呢
+//        int sortNum = numArr[high];
+//        int k = 0;
+//        for (int i = low; i <= high; i++) {
+//            if (numArr[i] <= sortNum) {
+//                int temp = numArr[i];
+//                numArr[i] = numArr[k];
+//                numArr[k] = temp;
+//                // 因为少了这一步，就会导致交换后返回的k不是sortNum的正确索引
+//                // 但是加了这一步效率就低了
+//                if (i == high) {
+//                    continue;
+//                }
+//                k++;
+//            }
+//        }
+//        return k;
+    }
+
+    /**
+     * 快速排序
+     * @param numArr
+     */
+    public void quickSort(int[] numArr) {
+        if (null == numArr || numArr.length <= 1) {
+            return ;
+        }
+        quickSort(numArr, 0, numArr.length - 1);
+    }
+
+    private void quickSort(int[] numArr, int low, int high) {
+        if (high <= low) {
+            return ;
+        }
+
+        int index = quick(numArr, low, high);
+        quickSort(numArr, low, index - 1);
+        quickSort(numArr, index + 1, high);
+    }
+
+    private int quick(int[] numArr, int low, int high) {
+        int sortNum = numArr[low];
+        int index = -1;
+        while (true) {
+            if (high <= low) {
+                index = high;
+                break;
+            }
+
+            while (high > low) {
+                if (numArr[high] >= sortNum) {
+                    high--;
+                } else {
+                    numArr[low] = numArr[high];
+                    break;
+                }
+            }
+
+            if (high <= low) {
+                index = low;
+                break;
+            }
+
+            while (high > low) {
+                if (numArr[low] <= sortNum) {
+                    low++;
+                } else {
+                    numArr[high] = numArr[low];
+                    break;
+                }
+            }
+        }
+        numArr[index] = sortNum;
+        return index;
+    }
 
     /**
      * 堆排序
@@ -241,6 +387,7 @@ public class SortUtil {
         }
         for (int i = 0; i < answerArr.length; i++) {
             if (answerArr[i] != destArr[i]) {
+                System.out.println("index:" + i);
                 return false;
             }
         }

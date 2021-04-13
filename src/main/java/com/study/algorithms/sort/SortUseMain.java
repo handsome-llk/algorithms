@@ -10,7 +10,7 @@ public class SortUseMain {
     }
 
     private static void calMatrix() {
-        int n = (int) Math.pow(2, 10); // TODO LILK n 先用2次幂
+        int n = (int) Math.pow(2, 10);
         int[][] a = createRandomMatrix(n);
         int[][] b = createRandomMatrix(n);
         calMatrixN3(a.clone(), b.clone());

@@ -12,6 +12,7 @@ public class TimeRecord {
     public void recordStop(String name) {
         recordEnd = System.currentTimeMillis();
         System.out.println(name + ":" + (recordEnd - recordStart) + "ms");
+        setRecordStart(recordEnd);
     }
 
     public void recordStop() {
