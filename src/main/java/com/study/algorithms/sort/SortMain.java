@@ -25,8 +25,8 @@ public class SortMain {
         mergeSort(numArr.clone(), answerArr);
 //        insertDiviSort(numArr.clone(), answerArr);
 //        maxHeapSort(numArr.clone(), answerArr);
-        quickSort2(numArr.clone(), answerArr);
         quickSort(numArr.clone(), answerArr);
+        quickSort2(numArr.clone(), answerArr);
         quickSortRandom(numArr.clone(), answerArr);
     }
 

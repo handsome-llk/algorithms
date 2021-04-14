@@ -44,7 +44,7 @@ public class SortUtil {
         numArr[high] = randomNum;
 
 
-        return quick(numArr, low, high);
+        return quick2(numArr, low, high);
     }
 
     /**
@@ -71,9 +71,8 @@ public class SortUtil {
     private int quick2(int[] numArr, int low, int high) {
         int sortNum = numArr[high];
         // k代表比sortNum大的数的最小下标，这个算法其实就是维护两个比sortNum大的数的最小下标和最大下标
-        int k = 0;
+        int k = low;
         for (int i = low; i < high; i++) {
-            // TODO LILK 当集合中都比sortNum大，k返回0时会有问题
             if (numArr[i] < sortNum) {
                 int temp = numArr[i];
                 numArr[i] = numArr[k];
@@ -126,6 +125,13 @@ public class SortUtil {
         quickSort(numArr, index + 1, high);
     }
 
+    /**
+     * 相对quick2慢的原因可能是quick的if太多了
+     * @param numArr
+     * @param low
+     * @param high
+     * @return
+     */
     private int quick(int[] numArr, int low, int high) {
         int sortNum = numArr[low];
         int index = -1;
