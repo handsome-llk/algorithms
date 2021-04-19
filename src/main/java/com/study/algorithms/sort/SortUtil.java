@@ -19,7 +19,105 @@ public class SortUtil {
     }
     private Random random = new Random();
 
+    /**
+     * 计数排序，考虑书中的写法.比起自己写的计数排序，这种计数排序可以保持数组的稳定性
+     * @param numArr
+     */
+    public void countSort2(int[] numArr) {
+        if (null == numArr || numArr.length <= 1) {
+            return ;
+        }
+        int maxNum = numArr[0];
+        int minNum = numArr[0];
+        for (int num : numArr) {
+            if (num > maxNum) {
+                maxNum = num;
+            }
+            if (num < minNum) {
+                minNum = num;
+            }
+        }
 
+        if (maxNum >= numArr.length || minNum < 0) {
+            quickSortRandom(numArr);
+            return ;
+        }
+
+        int[] indexArr = new int[maxNum + 1];
+        for (int num : numArr) {
+            indexArr[num] = indexArr[num] + 1;
+        }
+
+        for (int i = 1; i < indexArr.length; i++) {
+            // 这一步是为了直接让存在数组中的数变成下标
+            indexArr[i] = indexArr[i] + indexArr[i - 1];
+        }
+
+        int[] copyArr = new int[numArr.length];
+        System.arraycopy(numArr, 0, copyArr, 0, numArr.length);
+
+//        for (int i = 0; i < copyArr.length; i++) {
+//            int index = indexArr[copyArr[i]];
+//            numArr[index - 1] = copyArr[i];
+//            indexArr[copyArr[i]] = index - 1;
+//        }
+
+        // 如果改用0 -> copuArr.length，就会破坏数组的稳定性
+        for (int i = copyArr.length - 1; i >= 0; i--) {
+            int index = indexArr[copyArr[i]];
+            numArr[index - 1] = copyArr[i];
+            indexArr[copyArr[i]] = index - 1;
+        }
+    }
+
+    /**
+     * 计数排序,线性排序，但是限制大
+     * @param numArr
+     */
+    public void countSort(int[] numArr) {
+        if (null == numArr || numArr.length <= 1) {
+            return ;
+        }
+        int maxNum = numArr[0];
+        int minNum = numArr[0];
+        for (int num : numArr) {
+            if (num > maxNum) {
+                maxNum = num;
+            }
+            if (num < minNum) {
+                minNum = num;
+            }
+        }
+
+        if (maxNum >= numArr.length || minNum < 0) {
+            quickSortRandom(numArr);
+            return ;
+        }
+
+        int[] bArr = new int[maxNum + 1];
+        for (int num : numArr) {
+            bArr[num] = bArr[num] + 1;
+        }
+
+        int index = 0;
+        for (int i = 0; i < bArr.length; i++) {
+            if (bArr[i] == 0) {
+                continue;
+            }
+            while (bArr[i] > 0) {
+                numArr[index] = i;
+                index++;
+                bArr[i] = bArr[i] - 1;
+            }
+        }
+
+        // TODO LILK
+    }
+
+    /**
+     * 随机快速排序
+     * @param numArr
+     */
     public void quickSortRandom(int[] numArr) {
         if (null == numArr || numArr.length <= 1) {
             return ;
