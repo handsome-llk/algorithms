@@ -1,9 +1,10 @@
 package com.study.algorithms.sort;
 
 import com.study.algorithms.sort.vo.MaxHeap;
-import com.study.algorithms.sort.vo.MaxQueue;
+import org.springframework.beans.BeanUtils;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -18,6 +19,70 @@ public class SortUtil {
         return sortUtil;
     }
     private Random random = new Random();
+
+    /**
+     * 基数排序 -- 不排负数 TODO LILK,数组越界
+     * @param numArr
+     */
+    public void radixSort(int[] numArr) {
+        if (null == numArr || numArr.length <= 1) {
+            return ;
+        }
+
+        int arrLength = 11;
+
+        List<int[]> numList = new ArrayList<>();
+        for (int num : numArr) {
+            int[] arr = new int[arrLength];
+            int i = 0;
+            while (true) {
+                arr[i] = num % 10;
+                num /= 10;
+                if (num == 0) {
+                    break;
+                }
+                i++;
+            }
+            numList.add(arr);
+        }
+
+        for (int i = 0; i < arrLength; i++) {
+            // 0-9就只有10个数
+            int[] indexArr = new int[10];
+            for (int[] arr : numList) {
+                indexArr[arr[i]] = indexArr[arr[i]] + 1;
+            }
+
+            for (int j = 1; j < indexArr.length; j++) {
+                // 将value转换为索引
+                indexArr[j] = indexArr[j] + indexArr[j - 1];
+            }
+
+            List<int[]> copyNumList = new ArrayList<>();
+            copyNumList.addAll(numList);
+            System.out.println(numList.size());
+            System.out.println(copyNumList.size());
+            // 这里倒着才能保持稳定性，因为索引在变小
+            for (int j = numList.size() - 1; j >= 0; j--) {
+                int[] arr = numList.get(j);
+                int index = indexArr[arr[i]] - 1;
+                copyNumList.set(index, arr);
+                indexArr[arr[i]] = index - 1;
+            }
+
+            numList = copyNumList;
+        }
+
+        for (int i = 0; i < numArr.length; i++) {
+            int num = 0;
+            int[] arr = numList.get(i);
+            for (int j = arrLength - 1; j >= 0; j--) {
+                num = num * 10 + arr[j];
+            }
+            numArr[i] = num;
+        }
+    }
+
 
     /**
      * 计数排序，考虑书中的写法.比起自己写的计数排序，这种计数排序可以保持数组的稳定性

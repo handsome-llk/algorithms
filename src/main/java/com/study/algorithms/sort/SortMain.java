@@ -30,6 +30,14 @@ public class SortMain {
         quickSortRandom(numArr.clone(), answerArr);
         countSort(numArr.clone(), answerArr);
         countSort2(numArr.clone(), answerArr);
+        radixSort(numArr.clone(), answerArr);
+    }
+
+    private static void radixSort(int[] numArr, int[] answerArr) {
+        TimeRecord record = new TimeRecord();
+        SortUtil.getInstance().radixSort(numArr);
+        record.recordStop("radixSort");
+        System.out.println(SortUtil.getInstance().isRight(numArr, answerArr));
     }
 
     private static void countSort2(int[] numArr, int[] answerArr) {
