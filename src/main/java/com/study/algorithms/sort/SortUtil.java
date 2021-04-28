@@ -1,7 +1,6 @@
 package com.study.algorithms.sort;
 
 import com.study.algorithms.sort.vo.MaxHeap;
-import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ public class SortUtil {
     private Random random = new Random();
 
     /**
-     * 基数排序 -- 不排负数 TODO LILK,数组越界
+     * 基数排序 -- 不排负数 TODO LILK 我的基数排序好慢。。。。
      * @param numArr
      */
     public void radixSort(int[] numArr) {
@@ -60,14 +59,12 @@ public class SortUtil {
 
             List<int[]> copyNumList = new ArrayList<>();
             copyNumList.addAll(numList);
-            System.out.println(numList.size());
-            System.out.println(copyNumList.size());
             // 这里倒着才能保持稳定性，因为索引在变小
             for (int j = numList.size() - 1; j >= 0; j--) {
                 int[] arr = numList.get(j);
                 int index = indexArr[arr[i]] - 1;
                 copyNumList.set(index, arr);
-                indexArr[arr[i]] = index - 1;
+                indexArr[arr[i]] = indexArr[arr[i]] - 1;
             }
 
             numList = copyNumList;
