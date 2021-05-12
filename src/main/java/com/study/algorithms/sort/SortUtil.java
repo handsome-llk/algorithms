@@ -8,6 +8,8 @@ import java.util.Random;
 
 /**
  * 排序工具
+ * 包括：
+ * 选择排序、冒泡排序、插入排序、归并排序、快速排序、堆排序、计数排序
  */
 public class SortUtil {
 
@@ -181,7 +183,6 @@ public class SortUtil {
             }
         }
 
-        // TODO LILK
     }
 
     /**
