@@ -20,6 +20,14 @@ public class SortUtil {
     private Random random = new Random();
 
     /**
+     * 桶排序
+     * @param numArr
+     */
+    public void bucketSort(int[] numArr) {
+        // 桶排序。。咋说呢。。。这个是需要知道数组是否是均匀的。。。感觉用起来还挺麻烦的。。。。。
+    }
+
+    /**
      * 基数排序 -- 不排负数 TODO LILK 我的基数排序好慢。。。。
      * @param numArr
      */
