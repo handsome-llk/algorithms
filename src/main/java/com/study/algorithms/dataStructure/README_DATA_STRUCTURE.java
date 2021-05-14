@@ -1,6 +1,6 @@
 package com.study.algorithms.dataStructure;
 
-public class README {
+public class README_DATA_STRUCTURE {
 
     /**
      * 数据结构：
@@ -13,6 +13,9 @@ public class README {
     /**
      * 栈：后进先出
      * 队列：先进先出
+     * 链表
+     * 有根树
+     * 分支无限制的有根树：节点中不再包含两个子节点，而是存储其最左边的子节点和其本身右边的兄弟节点和其父节点
      */
 
 }
