@@ -44,13 +44,13 @@ public class BinarySearchTree<T extends Comparable, V> {
 
             if (null != left && left.p == this) {
                 left.p = null;
-                left = null;
             }
+            left = null;
 
             if (null != right && right.p == this) {
                 right.p = null;
-                right = null;
             }
+            right = null;
 
         }
 
@@ -96,7 +96,8 @@ public class BinarySearchTree<T extends Comparable, V> {
     }
 
     /**
-     * 删除节点
+     * 删除节点 我这个删除有个很大的缺点，就是这棵树如果是一条链的话，最多需要n次替换操作
+     * 这是不能接受的
      * @param key
      * @return
      */
@@ -129,6 +130,57 @@ public class BinarySearchTree<T extends Comparable, V> {
 
         node.withdraw();
         return node.value;
+    }
+
+    /**
+     * 算法导论的删除
+     * @param key
+     * @return
+     */
+    public V remove1(T key) {
+        Node node = treeSearch(this.root, key);
+        if (null == node) {
+            return null;
+        }
+
+        if (null != node.left && null != node.right) {
+            T succeedNodeKey = getSucceed(node.key);
+            Node succeedNode = treeSearch(this.root, succeedNodeKey);
+            if (null != succeedNode.right) {
+                replaceP(succeedNode.right);
+            }
+            replace(node, succeedNode);
+            node.withdraw();
+        } else if (null != node.right) {
+            replaceP(node.right);
+        } else if (null != node.left) {
+            replaceP(node.left);
+        } else {
+            if (null == node.p) {
+                this.root = null;
+            }
+            node.withdraw();
+        }
+        return node.value;
+    }
+
+    private void replaceP(Node node) {
+        if (null == node || null == node.p) {
+            return ;
+        }
+        Node p = node.p;
+        Node pp = p.p;
+        if (null == pp) {
+            this.root = node;
+        } else {
+            if (pp.left == p) {
+                pp.left = node;
+            }
+            if (pp.right == p) {
+                pp.right = node;
+            }
+        }
+        p.withdraw();
     }
 
     /**
@@ -286,6 +338,9 @@ public class BinarySearchTree<T extends Comparable, V> {
     private void replace(Node oldNode, Node newNode) {
         if (null == oldNode || null == newNode) {
             return;
+        }
+        if (null == oldNode.p) {
+            this.root = newNode;
         }
         newNode.p = oldNode.p;
         newNode.left = oldNode.left;
