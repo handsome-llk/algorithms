@@ -21,6 +21,14 @@ public class BinarySearchTree<T extends Comparable, V> {
             this.value = value;
         }
 
+        public Node clone() {
+            Node result = new Node(this.key, this.value);
+            result.p = this.p;
+            result.left = this.left;
+            result.right = this.right;
+            return result;
+        }
+
         /**
          * 销毁该节点
          */
@@ -34,12 +42,12 @@ public class BinarySearchTree<T extends Comparable, V> {
                 p = null;
             }
 
-            if (null != left) {
+            if (null != left && left.p == this) {
                 left.p = null;
                 left = null;
             }
 
-            if (null != right) {
+            if (null != right && right.p == this) {
                 right.p = null;
                 right = null;
             }
@@ -88,7 +96,7 @@ public class BinarySearchTree<T extends Comparable, V> {
     }
 
     /**
-     * 删除节点 TODO LILK 目测有问题
+     * 删除节点
      * @param key
      * @return
      */
@@ -111,9 +119,12 @@ public class BinarySearchTree<T extends Comparable, V> {
         }
 
         if (null != newNode) {
-            newNode.p = node.p;
-            newNode.left = node.left;
-            newNode.right = node.right;
+            remove(newNode.key);
+            replace(node, newNode);
+        }
+
+        if (null == p) {
+            this.root = newNode;
         }
 
         node.withdraw();
@@ -278,8 +289,24 @@ public class BinarySearchTree<T extends Comparable, V> {
         }
         newNode.p = oldNode.p;
         newNode.left = oldNode.left;
-        newNode.right
-        // TODO LILK 替换
+        newNode.right = oldNode.right;
+        if (null != newNode.p) {
+            if (newNode.p.left == oldNode) {
+                newNode.p.left = newNode;
+            } else if (newNode.p.right == oldNode) {
+                newNode.p.right = newNode;
+            }
+        }
+        if (null != newNode.left && newNode.left.p == oldNode) {
+            newNode.left.p = newNode;
+        }
+        if (null != newNode.right && newNode.right.p == oldNode) {
+            newNode.right.p = newNode;
+        }
+    }
+
+    public T getRootKey() {
+        return null == root ? null : root.key;
     }
 
 }

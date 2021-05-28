@@ -21,11 +21,15 @@ public class TreeMain {
             tree.insert(randomNum, String.valueOf(randomNum));
         }
         tree.inorderTreeWalkRecursion();
+        System.out.println(tree.remove(tree.getRootKey()));
+        tree.inorderTreeWalkRecursion();
         System.out.println(tree.remove(50));
         tree.inorderTreeWalkRecursion();
         System.out.println(tree.remove(100));
         tree.inorderTreeWalkRecursion();
         System.out.println(tree.remove(150));
+        tree.inorderTreeWalkRecursion();
+        System.out.println(tree.remove(tree.getRootKey()));
         tree.inorderTreeWalkRecursion();
     }
 
