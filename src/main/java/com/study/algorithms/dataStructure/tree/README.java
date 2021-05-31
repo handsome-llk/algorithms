@@ -1,5 +1,7 @@
 package com.study.algorithms.dataStructure.tree;
 
+import java.util.HashMap;
+
 public class README {
 
     /**
@@ -45,6 +47,19 @@ public class README {
      *
      */
 
-    HashMap
+    /**
+     * hashMap源码：
+     *
+     * 当某条链表长度超过8，但散列表长度小于64时，会重组hashMap，扩展散列长度。
+     * 个人理解是将散列表长度乘以2，再将所有数据重新写进去
+     *
+     * 当某条链表长度超过8，且散列表长度大于等于64时，链表会变为红黑树。
+     *
+     * 散列长度是在首次put时生成，初始长度为16。
+     * 且从上面可以看出hashMap中散列表的最长长度为64.
+     *
+     * 以上考虑的没有包括偏移值，但大致思路是这样的。
+     *
+     */
 
 }
