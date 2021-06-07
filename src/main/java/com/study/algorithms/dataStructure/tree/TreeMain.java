@@ -16,15 +16,13 @@ public class TreeMain {
 
     public static void testRedBlackTree(Random random) {
         RedBlackTree<Integer, Integer> tree = new RedBlackTree<>();
-        int num = 5;
+        int num = 10;
         for (int i = 0; i < num; i++) {
             int randomNum = random.nextInt(200);
             tree.insert(randomNum, randomNum);
+            System.out.print(randomNum + " ");
         }
-        tree.inorderTreeWalkRecursion();
-        tree.leftRotate(tree.getRootKey());
-        tree.inorderTreeWalkRecursion();
-        tree.rightRotate(tree.getRootKey());
+        System.out.println();
         tree.inorderTreeWalkRecursion();
     }
 

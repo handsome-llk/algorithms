@@ -29,7 +29,12 @@ public class RedBlackTree<T extends Comparable, V> {
             result.p = this.p;
             result.left = this.left;
             result.right = this.right;
+            result.color = this.color;
             return result;
+        }
+
+        public boolean isRed() {
+            return color == RED;
         }
 
         /**
@@ -60,6 +65,7 @@ public class RedBlackTree<T extends Comparable, V> {
     }
 
     /**
+     * 增加结点
      * @param key
      * @param value
      */
@@ -67,6 +73,7 @@ public class RedBlackTree<T extends Comparable, V> {
         RbNode addNode = new RbNode(key, value);
         if (null == this.root) {
             this.root = addNode;
+            addNode.color = RED;
         } else {
             RbNode nowNode = root;
             while (true) {
@@ -78,6 +85,7 @@ public class RedBlackTree<T extends Comparable, V> {
                     if (null == nowNode.left) {
                         nowNode.left = addNode;
                         addNode.p = nowNode;
+                        addNode.color = RED;
                         break;
                     } else {
                         nowNode = nowNode.left;
@@ -87,6 +95,7 @@ public class RedBlackTree<T extends Comparable, V> {
                     if (null == nowNode.right) {
                         nowNode.right = addNode;
                         addNode.p = nowNode;
+                        addNode.color = RED;
                         break;
                     } else {
                         nowNode = nowNode.right;
@@ -95,7 +104,51 @@ public class RedBlackTree<T extends Comparable, V> {
                 }
             }
         }
-        // TODO LILK 红黑树添加修改
+
+        reInsertFixup(addNode);
+    }
+
+    private void reInsertFixup(RbNode node) {
+        if (null == node) {
+            return ;
+        }
+        RbNode p = node.p;
+        while (null != p && p.isRed()) {
+            p = node.p;
+            RbNode pp = p.p;
+            if (p == pp.left) {
+                RbNode y = pp.right;
+                if (null != y && y.isRed()) {
+                    y.color = BLACK;
+                    p.color = BLACK;
+                    pp.color = RED;
+                    node = pp;
+                } else if (node == p.right) {
+                    node = p;
+                    leftRotate(node.key);
+                } else {
+                    p.color = BLACK;
+                    pp.color = RED;
+                    rightRotate(pp.key);
+                }
+            } else if (p == pp.right) {
+                RbNode y = pp.left;
+                if (null != y && y.isRed()) {
+                    y.color = BLACK;
+                    p.color = BLACK;
+                    pp.color = RED;
+                    node = pp;
+                } else if (node == p.left) {
+                    node = p;
+                    rightRotate(node.key);
+                } else {
+                    p.color = BLACK;
+                    pp.color = RED;
+                    leftRotate(pp.key);
+                }
+            }
+        }
+        this.root.color = BLACK;
     }
 
     /**
@@ -133,7 +186,7 @@ public class RedBlackTree<T extends Comparable, V> {
      * 左旋
      * @param key
      */
-    public void leftRotate(T key) {
+    private void leftRotate(T key) {
         RbNode node = treeSearchRoot(key);
         if (null == node) {
             return;
@@ -170,7 +223,7 @@ public class RedBlackTree<T extends Comparable, V> {
      * 右旋
      * @param key
      */
-    public void rightRotate(T key) {
+    private void rightRotate(T key) {
         RbNode node = treeSearchRoot(key);
         if (null == node) {
             return;
@@ -221,7 +274,7 @@ public class RedBlackTree<T extends Comparable, V> {
         }
 
         inorderTreeWalkRecursion(centerNode.left);
-        System.out.print(centerNode.key + " ");
+        System.out.print(String.valueOf(centerNode.key) + (centerNode.isRed() ? "r" : "b") + " ");
         inorderTreeWalkRecursion(centerNode.right);
     }
 
