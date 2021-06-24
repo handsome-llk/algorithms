@@ -19,6 +19,7 @@ public class TreeMain {
         int num = 10;
         for (int i = 0; i < num; i++) {
             int randomNum = random.nextInt(200);
+            randomNum = i + 1;
             tree.insert(randomNum, randomNum);
             System.out.print(randomNum + " ");
         }

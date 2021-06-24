@@ -114,7 +114,6 @@ public class RedBlackTree<T extends Comparable, V> {
         }
         RbNode p = node.p;
         while (null != p && p.isRed()) {
-            p = node.p;
             RbNode pp = p.p;
             if (p == pp.left) {
                 RbNode y = pp.right;
@@ -147,6 +146,8 @@ public class RedBlackTree<T extends Comparable, V> {
                     leftRotate(pp.key);
                 }
             }
+            // 每次操作完，判断前需要更新p
+            p = node.p;
         }
         this.root.color = BLACK;
     }
@@ -280,6 +281,44 @@ public class RedBlackTree<T extends Comparable, V> {
 
     public T getRootKey() {
         return null == root ? null : root.key;
+    }
+
+
+    /**
+     * 父结点连接替换
+     * @param oldNode
+     * @param newNode
+     */
+    private void rbTransplant(RbNode oldNode, RbNode newNode) {
+        if (null == oldNode || null == newNode) {
+            return ;
+        }
+        if (null == oldNode.p) {
+            this.root = newNode;
+        } else if (oldNode == oldNode.p.left) {
+            oldNode.p.left = newNode;
+        } else {
+            oldNode.p.right = newNode;
+        }
+        newNode.p = oldNode.p;
+    }
+
+    /**
+     * 获取对应节点的最小关键字元素
+     * @param node
+     * @return
+     */
+    private T getMin(RbNode node) {
+        if (null == node) {
+            return null;
+        }
+        RbNode p = node;
+        RbNode left = p.left;
+        while (null != left) {
+            p = left;
+            left = left.left;
+        }
+        return p.key;
     }
 
 }

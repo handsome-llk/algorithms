@@ -73,7 +73,7 @@ public class README {
      * }
      * T.root.color = BLACK
      *
-     * 红黑树问题说明：(图片见redBlack/red_black_tree_1.png)
+     * 红黑树问题说明：(图片见pic/redBlack/red_black_tree_1.png)
      *
      * 第一种情况是叔结点和父结点都是红色的，所以将父结点和叔结点染黑，z.p.p染红(因为叔结点是红的，所以z.p.p原先必定是黑的)。
      * 保持各条路的黑结点一样多。因为z.p.p变红，所以要考虑z.p.p.p是否为红，所以将z.p.p赋给z，循环以上逻辑
