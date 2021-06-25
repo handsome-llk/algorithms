@@ -299,7 +299,7 @@ public class RedBlackTree<T extends Comparable, V> {
         if (null == left && null == right) {
             // 如果node为红色，且不存在子树，删了没影响
             rbTransplant(node, null);
-            x = new RbNode(null, null);
+            x = createNil();
             x.p = node.p;
 
         } else if (null == left) {
@@ -320,7 +320,7 @@ public class RedBlackTree<T extends Comparable, V> {
                 x = succeedNode.right;
             } else {
                 rbTransplant(succeedNode, null);
-                x = new RbNode(null, null);
+                x = createNil();
                 x.p = succeedNode.p;
             }
             rbTransplant(node, succeedNode);
@@ -342,6 +342,13 @@ public class RedBlackTree<T extends Comparable, V> {
     /**
      * 调整红黑树结构
      * @param node
+     *
+     * 记录一下我的解决思路。
+     * 此处命名x即入参node,w为x的兄弟结点，p为x的父结点。只讨论x为nil结点的情况，不为nil很简单。
+     * 1、w有子树，当场通过一些左旋右旋解决问题
+     * 2、w没有子树，p为红色。把p变黑，w变红解决问题
+     * 3、w没有子树，p为黑色。把w变红，向上递归
+     *
      */
     private void rbDeleteFixup(RbNode node) {
         // TODO LILK 调整红黑树结构
@@ -350,6 +357,13 @@ public class RedBlackTree<T extends Comparable, V> {
             node.color = BLACK;
         }
     }
+
+    public RbNode createNil() {
+        RbNode node = new RbNode(null, null);
+        node.color = BLACK;
+        return node;
+    }
+
 
     /**
      * 父结点连接替换
