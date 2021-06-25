@@ -283,6 +283,73 @@ public class RedBlackTree<T extends Comparable, V> {
         return null == root ? null : root.key;
     }
 
+    /**
+     * 删除节点
+     * @param key
+     * @return
+     */
+    public V remove(T key) {
+        RbNode node = treeSearchRoot(key);
+        if (null == node) {
+            return null;
+        }
+        RbNode left = node.left;
+        RbNode right = node.right;
+        RbNode x = null;
+        if (null == left && null == right) {
+            // 如果node为红色，且不存在子树，删了没影响
+            rbTransplant(node, null);
+            x = new RbNode(null, null);
+            x.p = node.p;
+
+        } else if (null == left) {
+            // 如果node为红色，则不可能存在只有一个子树的情况
+            rbTransplant(node, right);
+            x = right;
+
+        } else if (null == right) {
+            rbTransplant(node, left);
+            x = left;
+
+        } else {
+            // 右子树存在，则后继结点一定存在
+            RbNode succeedNode = treeSearchRoot(getMin(right));
+            // 这个后继结点不可能存在左子树
+            if (null != succeedNode.right) {
+                rbTransplant(succeedNode, succeedNode.right);
+                x = succeedNode.right;
+            } else {
+                rbTransplant(succeedNode, null);
+                x = new RbNode(null, null);
+                x.p = succeedNode.p;
+            }
+            rbTransplant(node, succeedNode);
+            succeedNode.right = right;
+            right.p = succeedNode;
+            succeedNode.left = left;
+            left = succeedNode;
+            succeedNode.color = node.color;
+            // 若succeedNode为红色，则其一定没有子树，删了没有影响(不明白的话好好想想)
+            node = succeedNode;
+        }
+        if (node.color == BLACK) {
+            // node为红色则不需要调整，原因在上面列出来了
+            rbDeleteFixup(x);
+        }
+        return node.value;
+    }
+
+    /**
+     * 调整红黑树结构
+     * @param node
+     */
+    private void rbDeleteFixup(RbNode node) {
+        // TODO LILK 调整红黑树结构
+        if (node.key != null) {
+            // node不为null结点，可以看出原父结点为黑色。从上面的删除逻辑看出来的。。
+            node.color = BLACK;
+        }
+    }
 
     /**
      * 父结点连接替换
@@ -290,7 +357,7 @@ public class RedBlackTree<T extends Comparable, V> {
      * @param newNode
      */
     private void rbTransplant(RbNode oldNode, RbNode newNode) {
-        if (null == oldNode || null == newNode) {
+        if (null == oldNode) {
             return ;
         }
         if (null == oldNode.p) {
@@ -300,7 +367,10 @@ public class RedBlackTree<T extends Comparable, V> {
         } else {
             oldNode.p.right = newNode;
         }
-        newNode.p = oldNode.p;
+
+        if (null != newNode) {
+            newNode.p = oldNode.p;
+        }
     }
 
     /**
