@@ -355,6 +355,30 @@ public class RedBlackTree<T extends Comparable, V> {
         if (node.key != null) {
             // node不为null结点，可以看出原父结点为黑色。从上面的删除逻辑看出来的。。
             node.color = BLACK;
+            return ;
+        }
+        if (node.color == BLACK && node.p != null) {
+            if (node == node.p.left) {
+                RbNode w = node.p.right;
+                if (w.left == null && w.right == null) {
+                    if (node.p.color == RED) {
+                        node.p.color = BLACK;
+                        w.color = RED;
+                    } else {
+                        w.color = RED;
+                        node = node.p;
+                        // TODO LILK 再循环走这段逻辑
+                    }
+
+                } else if (w.right != null) {
+
+                } else {
+
+                }
+            } else {
+                // TODO LILK 右
+            }
+
         }
     }
 
