@@ -10,7 +10,7 @@ public class RedBlackTree<T extends Comparable, V> {
 
     private RbNode root;
 
-    protected class RbNode {
+    private class RbNode {
 
         private T key;
         private V value;
@@ -349,6 +349,8 @@ public class RedBlackTree<T extends Comparable, V> {
      * 2、w没有子树，p为红色。把p变黑，w变红解决问题
      * 3、w没有子树，p为黑色。把w变红，向上递归
      *
+     * TODO LILK 这个思路也有问题
+     *
      */
     private void rbDeleteFixup(RbNode node) {
         // TODO LILK 调整红黑树结构
@@ -357,7 +359,10 @@ public class RedBlackTree<T extends Comparable, V> {
             node.color = BLACK;
             return ;
         }
-        if (node.color == BLACK && node.p != null) {
+        while (true) {
+            if (!(node.color == BLACK && node.p != null)) {
+                break;
+            }
             if (node == node.p.left) {
                 RbNode w = node.p.right;
                 if (w.left == null && w.right == null) {
@@ -367,10 +372,10 @@ public class RedBlackTree<T extends Comparable, V> {
                     } else {
                         w.color = RED;
                         node = node.p;
-                        // TODO LILK 再循环走这段逻辑
+                        continue;
                     }
 
-                } else if (w.right != null) {
+                } else if (w.right == null) {
 
                 } else {
 
