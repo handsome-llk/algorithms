@@ -10,8 +10,22 @@ public class TreeMain {
     public static void main(String[] args) {
         Random random = new Random();
 //        testBinarySearchTree(random);
-        testRedBlackTree(random);
+//        testRedBlackTree(random);
+        testRedBlackTree2_3(random);
         System.out.println();
+    }
+
+    public static void testRedBlackTree2_3(Random random) {
+        RedBlackTree2_3<Integer, Integer> tree = new RedBlackTree2_3<>();
+        int num = 10;
+        for (int i = 0; i < num; i++) {
+            int randomNum = random.nextInt(200);
+            randomNum = i + 1;
+            tree.put(randomNum, randomNum);
+            System.out.print(randomNum + " ");
+        }
+        System.out.println();
+        tree.inorderTreeWalkRecursion();
     }
 
     public static void testRedBlackTree(Random random) {

@@ -2,6 +2,10 @@ package com.study.algorithms.dataStructure.tree;
 
 /**
  * 红黑树 -- 2-3树式的红黑树
+ * 这颗红黑树的逻辑都是根据算法的2-3树实现的。算法中对红黑树的定义如下：
+ * 1、红链接均为左链接
+ * 2、没有任何一个结点同时和两条红链接相连
+ * 3、该树是完美黑色平衡的，即任意空链接到根结点的路径上的黑链接数量相同
  */
 public class RedBlackTree2_3<T extends Comparable, V> {
 
@@ -80,10 +84,10 @@ public class RedBlackTree2_3<T extends Comparable, V> {
                 return node;
 
             } else if (node.key.compareTo(key) < 0) {
-                node = node.left;
+                node = node.right;
 
             } else {
-                node = node.right;
+                node = node.left;
 
             }
         }
@@ -103,7 +107,7 @@ public class RedBlackTree2_3<T extends Comparable, V> {
             if (isEuqalKey(node.key, newNode.key)) {
                 node.value = newNode.value;
                 break;
-            } else if (node.key.compareTo(newNode.key) < 0) {
+            } else if (node.key.compareTo(newNode.key) > 0) {
                 RbNode left = node.left;
                 if (null == left) {
                     node.left = newNode;
@@ -116,7 +120,7 @@ public class RedBlackTree2_3<T extends Comparable, V> {
             } else {
                 RbNode right = node.right;
                 if (null == right) {
-                    node.right = node.right;
+                    node.right = newNode;
                     newNode.p = node;
                     break;
                 } else {
@@ -139,12 +143,47 @@ public class RedBlackTree2_3<T extends Comparable, V> {
      * @param node
      */
     private void fixupInsertColor(RbNode node) {
-        // TODO LILK 添加结点颜色修复
         while (true) {
-            if (null == node.p) {
+            RbNode p = node.p;
+            if (null == p) {
                 break;
+            } else if (p.color == BLACK) {
+                if (p.left == node) {
+                    // 1、因为左节点是该结点是满足条件的，直接退出
+                    break;
+                } else if (p.left != null && p.left.color == RED) {
+                    // 2、当兄弟结点也是红色时，向上递归
+                    node.color = BLACK;
+                    p.left.color = BLACK;
+                    p.color = RED;
+                    node = p;
+                    continue;
+                } else {
+                    // 3、不存在兄弟结点时，左旋即可
+                    p.color = RED;
+                    node.color = BLACK;
+                    rotateLeft(p);
+                    break;
+                }
+            } else if (p.color == RED) {
+                if (p.right == node) {
+                    // 4、该处变化是为了变成5的情况
+                    rotateLeft(p);
+                    node = p;
+                    continue;
+                } else {
+                    // 5、这里其实可以设计成2的情况，但是由于情况1的存在，所以这里直接将颜色做掉并向上递归
+                    RbNode pp = p.p;
+                    p.color = RED;
+                    pp.color = BLACK;
+                    node.color = BLACK;
+                    rotateRight(pp);
+                    node = p;
+                    continue;
+                }
+            } else {
+                throw new RuntimeException("color exception");
             }
-
 
         }
 
