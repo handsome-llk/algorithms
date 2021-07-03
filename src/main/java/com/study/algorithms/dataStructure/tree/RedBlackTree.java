@@ -108,6 +108,10 @@ public class RedBlackTree<T extends Comparable, V> {
         reInsertFixup(addNode);
     }
 
+    /**
+     * 这个红黑树插入的逻辑主要围绕着一个点：保证当前路径的黑色结点树不变 n
+     * @param node
+     */
     private void reInsertFixup(RbNode node) {
         if (null == node) {
             return ;
