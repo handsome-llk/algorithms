@@ -95,8 +95,23 @@ public class RedBlackTree2_3<T extends Comparable, V> {
     }
 
     public void put(T key, V value) {
+        RbNode newNode = put0(key, value);
+        fixupInsertColor(newNode);
+    }
+
+    /**
+     * 这个是按算法的理解写的
+     * @param key
+     * @param value
+     */
+    public void putA(T key, V value) {
+        RbNode newNode = put0(key, value);
+        fixupInsertColorA(newNode);
+    }
+
+    private RbNode put0(T key, V value) {
         if (null == key || null == value) {
-            return ;
+            return null;
         }
         RbNode newNode = new RbNode(key, value);
         if (null == this.root) {
@@ -106,6 +121,7 @@ public class RedBlackTree2_3<T extends Comparable, V> {
         while (true) {
             if (isEuqalKey(node.key, newNode.key)) {
                 node.value = newNode.value;
+                newNode = node;
                 break;
             } else if (node.key.compareTo(newNode.key) > 0) {
                 RbNode left = node.left;
@@ -130,7 +146,52 @@ public class RedBlackTree2_3<T extends Comparable, V> {
             }
         }
 
-        fixupInsertColor(newNode);
+        return newNode;
+    }
+
+    /**
+     * 算法的颜色修复思路
+     *
+     * 该
+     *
+     * @param node
+     */
+    private void fixupInsertColorA(RbNode node) {
+        if (null == node) {
+            return ;
+        }
+
+        while (true) {
+            if (null == node) {
+                break;
+            }
+            RbNode left = node.left;
+            RbNode right = node.right;
+            if (isRed(right) && isRed(left)) {
+                left.color = BLACK;
+                right.color = BLACK;
+                node.color = RED;
+                node = node.p;
+            } else if (isRed(right) && !isRed(left)) {
+                right.color = node.color;
+                node.color = RED;
+                rotateLeft(node);
+                node = right;
+            } else if (isRed(left) && isRed(left.left)) {
+                left.color = node.color;
+                node.color = RED;
+                rotateRight(node);
+                node = left;
+            } else {
+                node = node.p;
+            }
+        }
+
+        this.root.color = BLACK;
+    }
+
+    private boolean isRed(RbNode node) {
+        return null == node ? false : node.isRed();
     }
 
     /**
@@ -143,6 +204,9 @@ public class RedBlackTree2_3<T extends Comparable, V> {
      * @param node
      */
     private void fixupInsertColor(RbNode node) {
+        if (null == node) {
+            return;
+        }
         while (true) {
             RbNode p = node.p;
             if (null == p) {

@@ -20,8 +20,8 @@ public class TreeMain {
         int num = 10;
         for (int i = 0; i < num; i++) {
             int randomNum = random.nextInt(200);
-            randomNum = i + 1;
-            tree.put(randomNum, randomNum);
+//            randomNum = i + 1;
+            tree.putA(randomNum, randomNum);
             System.out.print(randomNum + " ");
         }
         System.out.println();
@@ -30,6 +30,7 @@ public class TreeMain {
 
     public static void testRedBlackTree(Random random) {
         RedBlackTree<Integer, Integer> tree = new RedBlackTree<>();
+        RedBlackTree2_3<Integer, Integer> tree2_3 = new RedBlackTree2_3<>();
         int num = 10;
         for (int i = 0; i < num; i++) {
             int randomNum = random.nextInt(200);
