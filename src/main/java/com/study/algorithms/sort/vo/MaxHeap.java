@@ -5,6 +5,10 @@ import com.study.algorithms.sort.SortUtil;
 
 /**
  * 最大堆：父节点都大于等于子节点
+ *
+ * 堆数据结构：
+ * 用数组构成的类似于二叉树的数据结构
+ *
  */
 public class MaxHeap {
 
@@ -66,6 +70,7 @@ public class MaxHeap {
         }
         int changeIndex = -1;
         while (changeIndex != index) {
+            // 以下两个if是为了选出以index为父结点的包含两个子节点在内的三个结点中最大的值的索引
             if (left(index) < getHeapSize() && heapArr[left(index)] > heapArr[index]) {
                 changeIndex = left(index);
             } else {
