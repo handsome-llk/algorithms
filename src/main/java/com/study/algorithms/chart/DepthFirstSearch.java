@@ -5,6 +5,7 @@ package com.study.algorithms.chart;
  */
 public class DepthFirstSearch {
 
+    // d记录结点被发现的时刻，f记录结点完成的时刻
     // 图见pic/chart/DepthFirstSearch_1.png
 
 //    DFS(G)
