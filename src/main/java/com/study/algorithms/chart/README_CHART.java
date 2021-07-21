@@ -60,7 +60,6 @@ public class README_CHART {
      * 用深度优先搜索求强连通分量
      * https://www.jianshu.com/p/a404f235abb4
      *
-     * TODO LILK 证明下准确性
      * 见图
      * pci/chart/stronglyConnectedComponent_1.png
      * pci/chart/stronglyConnectedComponent_2.png
@@ -69,9 +68,15 @@ public class README_CHART {
      * 1、对图G进行DFS(具体逻辑在深度优先搜索里)计算，得出开始时间、结束时间
      * 2、对图G进行转置，将上述图G的各顶点的结束时间进行逆向排序，对结束时间从长到短的各个顶点，在转置G中调用DFS算法，
      *      得出新的起始时间与结束时间
-     * 3、每一颗DFS算法得出的深度优先森林中的树，都是一个强连通分支
+     * 3、每一颗DFS算法得出的深度优先森林中的树，都是一个强连通分量
      *
-     * (存在单向链呢。。)
+     * 单项非循环链表中，每个节点均可算是一个强连通分量
+     *
+     * 以上简单的理解就是：
+     * 第一遍对图G进行的DFS得出结束时间越大则说明其处于树的越高处，而对于转置图GT来说，则处于树的越低处。
+     * 比如图G有a -> b -> c，暂时不知道是否有其他路径。
+     * 而转置图GT有a <- b <- c。此时从a出发能找到到c的路,即a -> c。
+     * 那对于图G来说，必然存在路径c -> a。则至少abc会是某组强连通分量的一份或者全部
      *
      */
 
