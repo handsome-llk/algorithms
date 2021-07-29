@@ -80,4 +80,11 @@ public class README_CHART {
      *
      */
 
+    /**
+     * 最小生成树，定义：pic/chart/minimumTree_1.png
+     * 解决最小生成树的两种算法：
+     * 1、Kruskal
+     * 2、Prim
+     */
+
 }

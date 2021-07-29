@@ -1,4 +1,4 @@
-package com.study.algorithms.chart;
+package com.study.algorithms.chart.basic;
 
 /**
  * 深度优先搜索

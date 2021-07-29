@@ -1,4 +1,4 @@
-package com.study.algorithms.chart;
+package com.study.algorithms.chart.basic;
 
 /**
  * 广度优先搜索
@@ -12,6 +12,7 @@ public class BreadthFirstSearch {
 // Π：该结点的前驱结点（父结点）
 // Q：先进先出队列Q用来管理灰色结点集
 // Adj：Adj[u]表示u的相邻结点构成的链表
+// G = (V, E); 图G，V为G所有的节点，E为G所有的边
 
 //  图见pic/chart/BreadthFirstSearch_1.png
 
