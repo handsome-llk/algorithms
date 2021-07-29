@@ -1,5 +1,11 @@
 package com.study.algorithms.chart.singleSourcePath;
 
+/**
+ * Bellman-Ford算法：
+ * 这个算法解决的是一般情况下的单源最短路径问题。
+ * 该算法返回一个布尔值，以表明是否存在一个从源结点可以到达的权重为负值的环路。如果存在这样一个环路，
+ * 算法将告诉我们不存在解决方案。如果没有这种环路存在，算法将给出最短路径和它们的权重。
+ */
 public class BellmanFord {
 
 //    INITIALIZE-SINGLE-SOURCE(G, s)
