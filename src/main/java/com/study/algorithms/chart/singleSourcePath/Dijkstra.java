@@ -38,6 +38,9 @@ public class Dijkstra {
 //    }
 
     /**
+     *
+     * 图解：pic/chart/dijkstra_1.png
+     *
      * 对EXTRACT-MIN方法做一个说明：
      * 这个方法其实取出的是集合Q中d最小的节点。
      * 其实按我的理解，遍历整个Q集合寻找最小d的节点效率可能过低。
